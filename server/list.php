@@ -1,14 +1,14 @@
 <?php
 session_start();
 require_once("objects/user.php");
-include "objects/image.php";
+require_once("objects/ScheduleEntry.php");
 
 if(!isset($_SESSION["zalogowany"])){
 	header('Location: login.php');
 }
 
-$imageDb = new Image();
-$images = $imageDb->getAllImages();
+$entryDb = new scheduleEntry();
+$entries = $entryDb->getAllEntries();
 
 ?>
 
@@ -53,22 +53,28 @@ $images = $imageDb->getAllImages();
     <tr>
       <th scope="col">#</th>
       <th scope="col">Nazwa</th>
+			<th scope="col">Typ</th>
       <th scope="col">Czas startu</th>
       <th scope="col">Czas zakończenia</th>
+			<th scope="col">Czas wyświetlania</th>
     </tr>
   </thead>
   <tbody>
     <?php
     $i=1;
-    foreach($images as $document) {
+    foreach($entries as $document) {
       $name = $document["name"];
-      $start = $document["start"];
+			$type = $document["type"];
+			$start = $document["start"];
       $end = $document["end"];
+			$duration = $document["duration"];
         echo "<tr>
               <th scope='row'>$i</th>
               <td>$name</td>
+							<td>$type</td>
               <td>$start</td>
               <td>$end</td>
+							<td>$duration</td>
             </tr> ";
             $i++;
     }
