@@ -1,20 +1,28 @@
 <?php
 session_start();
 require_once("objects/user.php");
+require_once("objects/textSchedule.php");
+
 if(!isset($_SESSION["zalogowany"])){
 	header('Location: login.php');
 }
 
+$entryDb = new textSchedule();
+$entries = $entryDb->getAllEntries();
+
 ?>
+
 <html lang="pl" >
 <head>
   <meta charset="UTF-8">
   <link rel='stylesheet' href='http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="css/login.css">
+
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="css/login.css">
+
 </head>
 
 <body>
@@ -31,9 +39,9 @@ if(!isset($_SESSION["zalogowany"])){
       <a class="navbar-brand" href="index.php">Tablica informacyjna</a>
     </div>
 
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="index.php">Home <span class="sr-only">(current)</span></a></li>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li><a href="index.php">Home</a></li>
 				<li class="dropdown">
 					 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dodaj<span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
@@ -41,9 +49,9 @@ if(!isset($_SESSION["zalogowany"])){
 							<li><a href="addText.php">Tekst</a></li>
 						</ul>
 				</li>
-				<li class="dropdown">
+				<li class="dropdown active">
 					 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Lista<span class="caret"></span></a>
-					  <ul class="dropdown-menu" role="menu">
+						<ul class="dropdown-menu" role="menu">
 							<li><a href="list.php">Mediów</a></li>
 							<li><a href="listText.php">Tekstów</a></li>
 						</ul>
@@ -56,16 +64,41 @@ if(!isset($_SESSION["zalogowany"])){
 						</ul>
 				</li>
 				<li><a href="current.php">Podgląd</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="logout.php">Wyloguj</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-<div id="container">
-	<center><img src="meme.jpg"/></center>
-</div>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="logout.php">Wyloguj</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+	</nav>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Tekst</th>
+      <th scope="col">Czas startu</th>
+      <th scope="col">Czas zakończenia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php
+    $i=1;
+    foreach($entries as $document) {
+      $text = $document["text"];
+			$start = $document["start"];
+      $end = $document["end"];
+        echo "<tr>
+              <th scope='row'>$i</th>
+              <td>$text</td>
+              <td>$start</td>
+              <td>$end</td>
+            </tr> ";
+            $i++;
+    }
+    ?>
+  </tbody>
+</table>
 
 </body>
 

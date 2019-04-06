@@ -33,7 +33,7 @@ if(!isset($_SESSION["zalogowany"])){
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="index.php">Home <span class="sr-only">(current)</span></a></li>
+        <li><a href="index.php">Home <span class="sr-only">(current)</span></a></li>
 				<li class="dropdown">
 					 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dodaj<span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
@@ -55,7 +55,7 @@ if(!isset($_SESSION["zalogowany"])){
 							<li><a href="scheduleText.php">Tekstów</a></li>
 						</ul>
 				</li>
-				<li><a href="current.php">Podgląd</a></li>
+				<li class="active"><a href="current.php">Podgląd</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="logout.php">Wyloguj</a></li>
@@ -64,7 +64,7 @@ if(!isset($_SESSION["zalogowany"])){
   </div><!-- /.container-fluid -->
 </nav>
 <div id="container">
-	<center><img src="meme.jpg"/></center>
+	Coming soon...
 </div>
 
 </body>
