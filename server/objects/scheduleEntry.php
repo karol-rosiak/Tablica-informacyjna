@@ -46,9 +46,18 @@ class ScheduleEntry{
       return $result;
   }
 
+  function getById($id){
+    $result = $this->collection->findOne((array('_id' => new MongoDB\BSON\ObjectId($id))));
+    return $result;
+  }
+
   function getAllEntries(){
-      $result = $this->collection->find();
-      return $result;
+    $result = $this->collection->find();
+    return $result;
+  }
+
+  function deleteEntry($id){
+    return $this->collection->deleteOne(array('_id' => new MongoDB\BSON\ObjectId($id)));
   }
 
 }

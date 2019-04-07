@@ -6,10 +6,16 @@ require_once("objects/textSchedule.php");
 if(!isset($_SESSION["zalogowany"])){
 	header('Location: login.php');
 }
-
 $entryDb = new textSchedule();
-$entries = $entryDb->getAllEntries();
 
+
+if(isset($_POST["delete"])){
+	$error = "";
+	if(!$entryDb->deleteEntry($_POST["delete"])){
+			$error = "Błąd poczas próby usunięcia wpisu z bazy danych";
+		}
+}
+$entries = $entryDb->getAllEntries();
 ?>
 
 <html lang="pl" >
@@ -72,6 +78,17 @@ $entries = $entryDb->getAllEntries();
 	</div><!-- /.container-fluid -->
 	</nav>
 
+	<?php
+	if(isset($_POST["delete"])){
+		if(!empty($error)){
+			echo "<div class='alert alert-danger' role='alert'> $error </div>";
+		}
+		else{
+			echo "<div class='alert alert-success' role='alert'> Usunięto pomyślnie! </div>";
+		}
+	}
+	 ?>
+
 <table class="table">
   <thead>
     <tr>
@@ -79,6 +96,7 @@ $entries = $entryDb->getAllEntries();
       <th scope="col">Tekst</th>
       <th scope="col">Czas startu</th>
       <th scope="col">Czas zakończenia</th>
+			<th scope="col">Usuń</th>
     </tr>
   </thead>
   <tbody>
@@ -88,11 +106,19 @@ $entries = $entryDb->getAllEntries();
       $text = $document["text"];
 			$start = $document["start"];
       $end = $document["end"];
+			$id = $document["_id"];
         echo "<tr>
               <th scope='row'>$i</th>
               <td>$text</td>
               <td>$start</td>
               <td>$end</td>
+							<td>
+							<form action='listText.php' method='post'>
+								<button type='submit' name='delete' class='close' aria-label='Close' value='$id'>
+									<span aria-hidden='true'>&times;</span>
+								</button>
+							</form>
+							</td>
             </tr> ";
             $i++;
     }

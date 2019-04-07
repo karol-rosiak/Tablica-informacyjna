@@ -1,15 +1,40 @@
 <?php
 session_start();
 require_once("objects/user.php");
-require_once("objects/ScheduleEntry.php");
-
+require_once("objects/scheduleEntry.php");
+require_once("objects/file.php");
 if(!isset($_SESSION["zalogowany"])){
 	header('Location: login.php');
 }
 
 $entryDb = new scheduleEntry();
-$entries = $entryDb->getAllEntries();
 
+if(isset($_POST["delete"])){
+	$error = "";
+	$entry = $entryDb->getById($_POST["delete"]);
+
+	if($entry["type"] == "image" || $entry["type"] == "video" || $entry["type"] == "html"){
+		$file = new File();
+		if($file->fileExists($entry["name"])){
+			if($file->deleteFile($entry["name"])){
+					if(!$entryDb->deleteEntry($_POST["delete"])){
+						$error = "Błąd poczas próby usunięcia wpisu z bazy danych";
+					}
+			}else{
+				$error = "Błąd podczas próby usunięcia pliku z dysku";
+			}
+		}else{
+			$error = "Błąd. Plik nie istnieje";
+			$entryDb->deleteEntry($_POST["delete"]);
+		}
+	}else{
+		if(!$entryDb->deleteEntry($_POST["delete"])){
+			$error = "Błąd poczas próby usunięcia wpisu z bazy danych";
+		}
+	}
+}
+
+$entries = $entryDb->getAllEntries();
 ?>
 
 <html lang="pl" >
@@ -72,6 +97,17 @@ $entries = $entryDb->getAllEntries();
 	</div><!-- /.container-fluid -->
 	</nav>
 
+	<?php
+	if(isset($_POST["delete"])){
+		if(!empty($error)){
+			echo "<div class='alert alert-danger' role='alert'> $error </div>";
+		}
+		else{
+			echo "<div class='alert alert-success' role='alert'> Usunięto pomyślnie! </div>";
+		}
+	}
+	 ?>
+
 <table class="table">
   <thead>
     <tr>
@@ -81,6 +117,7 @@ $entries = $entryDb->getAllEntries();
       <th scope="col">Czas startu</th>
       <th scope="col">Czas zakończenia</th>
 			<th scope="col">Czas wyświetlania</th>
+			<th scope="col">Usuń</th>
     </tr>
   </thead>
   <tbody>
@@ -92,6 +129,7 @@ $entries = $entryDb->getAllEntries();
 			$start = $document["start"];
       $end = $document["end"];
 			$duration = $document["duration"];
+			$id = $document["_id"];
         echo "<tr>
               <th scope='row'>$i</th>
               <td>$name</td>
@@ -99,7 +137,14 @@ $entries = $entryDb->getAllEntries();
               <td>$start</td>
               <td>$end</td>
 							<td>$duration</td>
-            </tr> ";
+							<td>
+							<form action='list.php' method='post'>
+								<button type='submit' name='delete' class='close' aria-label='Close' value='$id'>
+  								<span aria-hidden='true'>&times;</span>
+								</button>
+							</form>
+							</td>
+						</tr> ";
             $i++;
     }
     ?>

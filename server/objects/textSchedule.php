@@ -49,4 +49,8 @@ class TextSchedule{
       return $result;
   }
 
+  function deleteEntry($id){
+    return $this->collection->deleteOne(array('_id' => new MongoDB\BSON\ObjectId($id)));
+  }
+
 }
