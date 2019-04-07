@@ -1,9 +1,20 @@
 <?php
 session_start();
 require_once("objects/user.php");
+require_once("objects/ScheduleEntry.php");
 if(!isset($_SESSION["zalogowany"])){
 	header('Location: login.php');
 }
+
+$entryDb = new scheduleEntry();
+
+if(!isset($_GET["date"])){
+	$date = $dateToday = date("Y-m-d");
+}else{
+	$date = $_GET["date"];
+}
+
+$entries = $entryDb->getEntriesByDate($date);
 
 ?>
 <html lang="pl" >
@@ -65,7 +76,46 @@ if(!isset($_SESSION["zalogowany"])){
 	</div><!-- /.container-fluid -->
 	</nav>
 
-Coming soon...
+	<center>
+		<form method="get" action"schedule.php">
+			<input type="date" name="date" value=<?=$date?> />
+			<input type="submit" value="Pokaż" />
+		</form>
+	</center>
+	
+	<table class="table">
+	  <thead>
+	    <tr>
+	      <th scope="col">#</th>
+	      <th scope="col">Nazwa</th>
+				<th scope="col">Typ</th>
+	      <th scope="col">Czas startu</th>
+	      <th scope="col">Czas zakończenia</th>
+				<th scope="col">Czas wyświetlania</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <?php
+	    $i=1;
+	    foreach($entries as $document) {
+	      $name = $document["name"];
+				$type = $document["type"];
+				$start = $document["start"];
+	      $end = $document["end"];
+				$duration = $document["duration"];
+	        echo "<tr>
+	              <th scope='row'>$i</th>
+	              <td>$name</td>
+								<td>$type</td>
+	              <td>$start</td>
+	              <td>$end</td>
+								<td>$duration</td>
+	            </tr> ";
+	            $i++;
+	    }
+	    ?>
+	  </tbody>
+	</table>
 
 </body>
 

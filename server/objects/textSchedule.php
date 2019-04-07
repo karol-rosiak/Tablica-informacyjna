@@ -43,4 +43,10 @@ class TextSchedule{
       return $result;
   }
 
+  function getEntriesByDate($date){
+      $rangeQuery = array('start' => array( '$lte' => $date),'end' => array( '$gte' => $date));
+      $result = $this->collection->find($rangeQuery);
+      return $result;
+  }
+
 }

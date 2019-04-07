@@ -1,9 +1,21 @@
 <?php
 session_start();
 require_once("objects/user.php");
+require_once("objects/textSchedule.php");
+
 if(!isset($_SESSION["zalogowany"])){
 	header('Location: login.php');
 }
+
+$entryDb = new textSchedule();
+
+if(!isset($_GET["date"])){
+	$date = $dateToday = date("Y-m-d");
+}else{
+	$date = $_GET["date"];
+}
+
+$entries = $entryDb->getEntriesByDate($date);
 
 ?>
 <html lang="pl" >
@@ -65,7 +77,40 @@ if(!isset($_SESSION["zalogowany"])){
 	</div><!-- /.container-fluid -->
 	</nav>
 
-Coming soon...
+	<center>
+		<form method="get" action"schedule.php">
+			<input type="date" name="date" value=<?=$date?> />
+			<input type="submit" value="Pokaż" />
+		</form>
+	</center>
+
+	<table class="table">
+	  <thead>
+	    <tr>
+	      <th scope="col">#</th>
+	      <th scope="col">Tekst</th>
+	      <th scope="col">Czas startu</th>
+	      <th scope="col">Czas zakończenia</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <?php
+	    $i=1;
+	    foreach($entries as $document) {
+	      $text = $document["text"];
+				$start = $document["start"];
+	      $end = $document["end"];
+	        echo "<tr>
+	              <th scope='row'>$i</th>
+	              <td>$text</td>
+	              <td>$start</td>
+	              <td>$end</td>
+	            </tr> ";
+	            $i++;
+	    }
+	    ?>
+	  </tbody>
+	</table>
 
 </body>
 

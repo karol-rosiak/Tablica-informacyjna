@@ -40,6 +40,12 @@ class ScheduleEntry{
       return false;
   }
 
+  function getEntriesByDate($date){
+      $rangeQuery = array('start' => array( '$lte' => $date),'end' => array( '$gte' => $date));
+      $result = $this->collection->find($rangeQuery);
+      return $result;
+  }
+
   function getAllEntries(){
       $result = $this->collection->find();
       return $result;
