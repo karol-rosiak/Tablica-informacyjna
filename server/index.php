@@ -1,11 +1,11 @@
 <?php
 session_start();
-require_once("objects/user.php");
 if(!isset($_SESSION["zalogowany"])){
 	header('Location: login.php');
 }
-
+require_once("objects/user.php");
 ?>
+
 <html lang="pl" >
 <head>
   <meta charset="UTF-8">

@@ -1,5 +1,5 @@
 <?php
-require $_SERVER["DOCUMENT_ROOT"] . '/tablica/vendor/autoload.php'; // include Composer's autoloader
+require $_SERVER["DOCUMENT_ROOT"] . '/vendor/autoload.php'; // include Composer's autoloader
 
 class TextSchedule{
   //connection

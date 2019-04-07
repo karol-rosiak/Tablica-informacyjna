@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once($_SERVER["DOCUMENT_ROOT"] ."/tablica/objects/user.php");
+require_once($_SERVER["DOCUMENT_ROOT"] ."/objects/user.php");
 if(!isset($_SESSION["zalogowany"])){
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	    if(isset($_POST["username"]) && isset($_POST["password"])){

@@ -1,5 +1,5 @@
 <?php
-require $_SERVER["DOCUMENT_ROOT"] . '/tablica/vendor/autoload.php'; // include Composer's autoloader
+require $_SERVER["DOCUMENT_ROOT"] . '/vendor/autoload.php'; // include Composer's autoloader
 
 class ScheduleEntry{
   //connection
@@ -33,7 +33,11 @@ class ScheduleEntry{
 
   function saveEnteryToDb($name,$type,$duration, $start,$end){
     $document = array( "name" => $name,"type" => $type, "duration" => $duration, "start" => $start,"end" => $end );
-    $this->collection->insertOne($document);
+    $result = $this->collection->insertOne($document);
+    if($result->getInsertedCount() > 0)
+      return true;
+    else
+      return false;
   }
 
   function getAllEntries(){
