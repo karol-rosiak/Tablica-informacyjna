@@ -5,6 +5,17 @@ if(!isset($_SESSION["zalogowany"])){
 	header('Location: login.php');
 }
 
+    $fp = fsockopen("127.0.0.1", 65432, $errno, $errstr, 30);
+    if (!$fp) {
+        echo "$errstr ($errno)<br />\n";
+    } else {
+        fwrite($fp, "Screenshot");
+        while (fgets($fp, 128)) {
+            echo fgets($fp, 128); // If you expect an answer
+        }
+        fclose($fp); // To close the connection
+    }
+	sleep(1.0);
 ?>
 <html lang="pl" >
 <head>
@@ -64,7 +75,8 @@ if(!isset($_SESSION["zalogowany"])){
   </div><!-- /.container-fluid -->
 </nav>
 <div id="container">
-	Coming soon...
+	<center><a href="screenshot.png"><img src="screenshot.png" style="width:50%;height:50%;" /></a></center>
+	<center><h5>Kliknij aby powiększyć podgląd</h5></center>
 </div>
 
 </body>
