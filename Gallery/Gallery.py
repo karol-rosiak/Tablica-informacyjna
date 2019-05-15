@@ -1,5 +1,6 @@
 import cv2
 import time as t
+import imgkit
 import scheduler
 
 file = 'C:\\Users\\Karol\\Desktop\\screen\\'
@@ -26,6 +27,13 @@ def img(filename,time):
         exit()
     t.sleep(int(time))
 
+def u(filename,time):
+    imgkit.from_url(filename, file+"out.jpg")
+    cv2.imshow('Gallery', cv2.imread(file + filename))
+    if cv2.waitKey(33) == ord('q'):
+        exit()
+    t.sleep(int(time))
+
 i = 0
 cv2.namedWindow('Gallery', cv2.WND_PROP_FULLSCREEN)
 cv2.setWindowProperty('Gallery', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
@@ -38,4 +46,5 @@ while True:
             img(x["name"], x["duration"])
         if x["type"] == 'video':
             video(x["name"])
-
+        if x["type"] == 'url':
+            u(x["name"], x["duration"])
