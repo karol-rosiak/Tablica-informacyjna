@@ -29,7 +29,7 @@ def img(filename,time):
 
 def u(filename,time):
     imgkit.from_url(filename, file+"out.jpg")
-    cv2.imshow('Gallery', cv2.imread(file + filename))
+    cv2.imshow('Gallery', cv2.imread(file+"out.jpg"))
     if cv2.waitKey(33) == ord('q'):
         exit()
     t.sleep(int(time))
