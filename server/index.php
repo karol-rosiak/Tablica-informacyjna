@@ -55,6 +55,7 @@ require_once("objects/user.php");
 							<li><a href="scheduleText.php">Tekstów</a></li>
 						</ul>
 				</li>
+				<li><a href="weather.php" >Pogoda</a></li>
 				<li><a href="current.php">Podgląd</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">

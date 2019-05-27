@@ -16,7 +16,7 @@ if(!isset($_SESSION["zalogowany"])){
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <link rel="stylesheet" href="css/login.css">
-
+  
    <style>
     body{
       background-color:black;
@@ -32,7 +32,7 @@ if(!isset($_SESSION["zalogowany"])){
       max-width: 100%;
     }
   </style>
-
+  
 </head>
 
 <body>
@@ -73,6 +73,7 @@ if(!isset($_SESSION["zalogowany"])){
 							<li><a href="scheduleText.php">Tekstów</a></li>
 						</ul>
 				</li>
+				<li><a href="weather.php" >Pogoda</a></li>
 				<li class="active"><a href="current.php">Podgląd</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
