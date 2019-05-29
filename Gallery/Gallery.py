@@ -3,7 +3,7 @@ import time as t
 import imgkit
 import scheduler
 
-file = 'C:\\Users\\Karol\\Desktop\\screen\\'
+file = '/var/www/html/uploads/'
 
 
 def video(filename):
@@ -34,6 +34,30 @@ def u(filename,time):
         exit()
     t.sleep(int(time))
 
+
+ 
+def camera(url,time):
+    cap = cv2.VideoCapture(url)
+    t0 = t.time() # start time in seconds
+    
+    while (cap.isOpened()):
+        ret, frame = cap.read()
+
+        if ret:
+            cv2.imshow('Gallery', frame)
+            if cv2.waitKey(33) == 27:
+                exit()
+                break
+
+            t1 = t.time()  # current time
+            num_seconds = t1 - t0  # diff
+            if num_seconds > int(time):  
+                break
+        else:
+            break
+    cap.release()
+
+
 i = 0
 cv2.namedWindow('Gallery', cv2.WND_PROP_FULLSCREEN)
 cv2.setWindowProperty('Gallery', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
@@ -48,3 +72,5 @@ while True:
             video(x["name"])
         if x["type"] == 'url':
             u(x["name"], x["duration"])
+        if x["type"] == 'webcam':
+            camera(x["name"], x["duration"])
