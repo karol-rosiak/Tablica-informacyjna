@@ -11,7 +11,7 @@ def video(filename):
 
     while (cap.isOpened()):
         ret, frame = cap.read()
-        print(ret)
+        #print(ret)
         if ret:
             cv2.imshow('Gallery', frame)
             if cv2.waitKey(33) == 27:
@@ -34,7 +34,12 @@ def u(filename,time):
         exit()
     t.sleep(int(time))
 
-
+def html(filename,time):
+    imgkit.from_file(file + filename, file+"out.jpg")
+    cv2.imshow('Gallery', cv2.imread(file+"out.jpg"))
+    if cv2.waitKey(33) == ord('q'):
+        exit()
+    t.sleep(int(time))
  
 def camera(url,time):
     cap = cv2.VideoCapture(url)
@@ -72,5 +77,7 @@ while True:
             video(x["name"])
         if x["type"] == 'url':
             u(x["name"], x["duration"])
+        if x["type"] == 'html':
+            html(x["name"], x["duration"])
         if x["type"] == 'webcam':
             camera(x["name"], x["duration"])
